@@ -224,71 +224,7 @@ run_simulation <- function(params) {
   beta1_adj <- cbind(Sample_vec, G_vec, True_Beta1, beta1_res)
   row.names(beta1_adj) <- NULL
 
-  ####### Under construction!!!!
-  sum.com.Ho <- summary(vglmfit.com.Ho)@coef3[,1:2]
-  sum.com.Ho[,2] <- sum.com.Ho[,2]^2
-  sum.com.G0 <- summary(vglmfit.com.G0)@coef3[,1:2]
-  sum.com.G0[,2] <- sum.com.G0[,2]^2
-  sum.com.G1 <- summary(vglmfit.com.G1)@coef3[,1:2]
-  sum.com.G1[,2] <- sum.com.G1[,2]^2
-  sum.nai.Ho.R1 <- summary(ordinalfit.nai.Ho.R1)@coef3[,1:2]
-  sum.nai.Ho.R1[,2] <- sum.nai.Ho.R1[,2]^2
-  sum.nai.R1.G0 <- summary(ordinalfit.nai.R1.G0)@coef3[,1:2]
-  sum.nai.R1.G0[,2] <- sum.nai.R1.G0[,2]^2
-  sum.nai.R1.G1 <- summary(ordinalfit.nai.R1.G1)@coef3[,1:2]
-  sum.nai.R1.G1[,2] <- sum.nai.R1.G1[,2]^2
-  sum.nai.Ho.R2 <- summary(ordinalfit.nai.Ho.R2)@coef3[,1:2]
-  sum.nai.Ho.R2[,2] <- sum.nai.Ho.R2[,2]^2
-  sum.nai.R2.G0 <- summary(ordinalfit.nai.R2.G0)@coef3[,1:2]
-  sum.nai.R2.G0[,2] <- sum.nai.R2.G0[,2]^2
-  sum.nai.R2.G1 <- summary(ordinalfit.nai.R2.G1)@coef3[,1:2]
-  sum.nai.R2.G1[,2] <- sum.nai.R2.G1[,2]^2
 
-  est.resHa.R1.G0 <- resHa.R1.G0[["theta"]]
-  var.resHa.R1.G0 <- diag(solve(resHa.R1.G0[["FIM"]]))[1:length(est.resHa.R1.G0)]
-  sum.resHa.R1.G0 <- cbind(est.resHa.R1.G0, var.resHa.R1.G0)
-  est.resHo.R1.G1 <- resHo.R1.G1[["theta"]]
-  var.resHo.R1.G1 <- diag(solve(resHo.R1.G1[["FIM"]]))[1:length(est.resHo.R1.G1)]
-  sum.resHo.R1.G1 <- cbind(est.resHo.R1.G1, var.resHo.R1.G1)
-  est.resHo.R2.G0 <- resHo.R2.G0[["theta"]]
-  var.resHo.R2.G0 <- diag(solve(resHo.R2.G0[["FIM"]]))[1:length(est.resHo.R2.G0)]
-  sum.resHo.R2.G0 <- cbind(est.resHo.R2.G0, var.resHo.R2.G0)
-  est.resHo.R2.G1 <- resHo.R2.G1[["theta"]]
-  var.resHo.R2.G1 <- diag(solve(resHo.R2.G1[["FIM"]]))[1:length(est.resHo.R2.G1)]
-  sum.resHo.R2.G1 <- cbind(est.resHo.R2.G1, var.resHo.R2.G1)
-
-  sum.mat<- rbind(sum.com.Ho ,
-                  sum.com.G0 ,
-                  sum.com.G1 ,
-                  sum.nai.Ho.R1 ,
-                  sum.nai.R1.G0 ,
-                  sum.nai.R1.G1 ,
-                  sum.nai.Ho.R2 ,
-                  sum.nai.R2.G0 ,
-                  sum.nai.R2.G1 ,
-                  sum.resHa.R1.G0 ,
-                  sum.resHo.R1.G1 ,
-                  sum.resHo.R2.G0 ,
-                  sum.resHo.R2.G1 )
-
-  model_names <- c(rep("com.Ho", dim(sum.com.Ho)[1]) ,
-                   rep("com.G0", dim(sum.com.G0)[1]) ,
-                   rep("com.G1", dim(sum.com.G1)[1]) ,
-                   rep("nai.Ho.R1", dim(sum.nai.Ho.R1)[1]) ,
-                   rep("nai.R1.G0", dim(sum.nai.R1.G0)[1]) ,
-                   rep("nai.R1.G1", dim(sum.nai.R1.G1)[1]) ,
-                   rep("nai.Ho.R2", dim(sum.nai.Ho.R2)[1]) ,
-                   rep ("nai.R2.G0", dim(sum.nai.R2.G0)[1]) ,
-                   rep("nai.R2.G1", dim(sum.nai.R2.G1)[1]) ,
-                   rep ("resHa.R1.G0", dim(sum.resHa.R1.G0)[1]) ,
-                   rep ("resHo.R1.G1", dim(sum.resHo.R1.G1)[1]) ,
-                   rep ("resHo.R2.G0", dim(sum.resHo.R2.G0)[1]) ,
-                   rep ("resHo.R2.G1", dim(sum.resHo.R2.G1)[1]) )
-
-  sum.dat <- data.frame(model_names= model_names,
-                        coef_name = row.names(sum.mat),
-                        est = sum.mat[,1],
-                        var = sum.mat[,2])
 
 
 
@@ -297,8 +233,7 @@ run_simulation <- function(params) {
   adj_dat <- list(iteration= iteration,
                   seed = my_seed,
                   sample_freq=list(com_table=com_table, R1_table=R1_table, R2_table=R2_table),
-                  beta1_table = beta1_adj,
-                  est_var = sum.dat)
+                  beta1_table = beta1_adj)
 
   ###############
 
