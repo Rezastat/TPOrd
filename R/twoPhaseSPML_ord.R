@@ -1,6 +1,47 @@
+#' Two-Phase Semiparametric Maximum Likelihood for Ordinal Outcomes
+#'
+#' This function performs semiparametric maximum likelihood estimation for two-phase studies with ordinal outcomes using the EM algorithm.
+#'
+#' @param formula The formula for the model.
+#' @param miscov A formula specifying the missing covariates.
+#' @param auxvar A formula specifying the auxiliary variables.
+#' @param family The family of models to use. Defaults to NULL.
+#' @param data0 Data from the complement of Phase 2 data.
+#' @param data1 Data from Phase 2.
+#' @param start.values Optional starting values for the parameters.
+#' @param verbose Logical. If TRUE, prints detailed information during iterations. Defaults to FALSE.
+#' @param n_second The number of Phase 2 samples.
+#' @param model_type The type of ordinal model (e.g., "Cumulative Logit", "Adjacent Category", "Stopping Ratio").
+#' @param num_categories The number of categories in the ordinal outcome.
+#' @param N The total sample size.
+#' @param osm Logical. If TRUE, uses the ordinal stereotype model by the OSM function otherwise it uses unordered stereotype with rrvglm. Defaults to TRUE.
+#' @param iteration Optional iteration number.
+#' @param em_tol The convergence tolerance for the EM algorithm. Defaults to 1e-05.
+#' @param max_iter The maximum number of iterations for the EM algorithm. Defaults to 1000.
+#' @param array_id Optional array ID for parallel processing.
+#'
+#' @return A list containing the estimated parameters, the probabilities for each category, the number of iterations, the log-likelihood, and the Fisher information matrix.
+#'
+#' @details
+#' This function estimates the parameters of a model for ordinal outcomes using data from a two-phase sampling design. The estimation is performed using the EM algorithm to handle the missing data and optimize the likelihood function. The function can handle different types of ordinal models including Cumulative Logit, Adjacent Category, and Stopping Ratio models.
+#'
+#' @examples
+#' \dontrun{
+#' data(biopsy)
+#' # Example data preparation
+#' data0 <- biopsy[1:300, ]
+#' data1 <- biopsy[301:699, ]
+#' formula <- ClumpThickness ~ CellShape + CellSize
+#' miscov <- ~ CellShape
+#' auxvar <- ~ CellSize
+#' results <- twoPhaseSPML_ord(formula, miscov, auxvar, family=propodds(reverse=F),
+#'                             data0, data1, n_second=100, model_type="Proportional_Odds",
+#'                             num_categories=4, N=699)
+#' }
+#' @export
 twoPhaseSPML_ord <- function(formula, miscov, auxvar, family=NULL, data0, data1, start.values = NULL,
                              verbose = FALSE, n_second, model_type, num_categories, N, osm = T,
-                             iteration = NULL, em_tol = 1e-05, max_iter = 500, array_id = NULL) {
+                             iteration = NULL, em_tol = 1e-05, max_iter = 1000, array_id = NULL) {
 
 
 
