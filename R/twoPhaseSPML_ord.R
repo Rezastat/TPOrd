@@ -24,21 +24,6 @@
 #'
 #' @details
 #' This function estimates the parameters of a model for ordinal outcomes using data from a two-phase sampling design. The estimation is performed using the EM algorithm to handle the missing data and optimize the likelihood function. The function can handle different types of ordinal models including Cumulative Logit, Adjacent Category, and Stopping Ratio models.
-#'
-#' @examples
-#' \dontrun{
-#' data(biopsy)
-#' # Example data preparation
-#' data0 <- biopsy[1:300, ]
-#' data1 <- biopsy[301:699, ]
-#' formula <- ClumpThickness ~ CellShape + CellSize
-#' miscov <- ~ CellShape
-#' auxvar <- ~ CellSize
-#' results <- twoPhaseSPML_ord(formula, miscov, auxvar, family=propodds(reverse=F),
-#'                             data0, data1, n_second=100, model_type="Proportional_Odds",
-#'                             num_categories=4, N=699)
-#' }
-#' @export
 twoPhaseSPML_ord <- function(formula, miscov, auxvar, family=NULL, data0, data1, start.values = NULL,
                              verbose = FALSE, n_second, model_type, num_categories, N, osm = T,
                              iteration = NULL, em_tol = 1e-05, max_iter = 1000, array_id = NULL) {
